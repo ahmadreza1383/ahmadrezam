@@ -14,6 +14,7 @@ class ArticleController extends Controller
      */
     public function index()
     {
+
         $list = ArticleRepository::get();
         return view("panel/article/list", compact('list'));
     }
@@ -29,7 +30,7 @@ class ArticleController extends Controller
 
         $create = ArticleRepository::create(
             [
-                'article_category' => 1,
+                'category_id' => 1,
                 'title' => $request['title'],
                 'content' => '',
                 'article_code' => uniq_code(new Article(), 'article_code'),
@@ -73,11 +74,14 @@ class ArticleController extends Controller
     {
         $article = ArticleRepository::where(['article_code' => $code]);
 
-        if($article->exists() == false)  
+        if($article->exists() == false)
         return redirect(route('panel.article'));
 
         $row = $article->first();
-        $row->content = "<h2>edit article $row->title....</h2>";
+
+        if(empty($row->content)){
+            $row->content = "<h2>edit article $row->title....</h2>";
+        }
 
         return view('panel.article.content', compact('row'));
     }
@@ -91,7 +95,7 @@ class ArticleController extends Controller
      */
     public function update(Request $request, $code)
     {
-      
+
     }
 
     /**

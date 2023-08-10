@@ -1,0 +1,55 @@
+services:
+  laravel:
+    container_name: laravel
+    image: laravel:temporaryV3
+    ports:
+        - '0.0.0.0:82:80'
+        - '${VITE_PORT:-5173}:${VITE_PORT:-5173}'
+    privileged: true
+    tty: true
+    stdin_open: true
+    volumes:
+        - './:/var/www/html'
+    networks:
+      ahmadrezam:
+        ipv4_address: 172.18.0.4
+    depends_on:
+      - mariadb
+      - phpmyadmin
+  mariadb:
+    networks:
+      ahmadrezam:
+        ipv4_address: 172.18.0.2
+    container_name: "mariadb"
+    image: 'mariadb:10.3.38-focal'
+    environment:
+      MARIADB_USER: 'ahmadrezam'
+      MARIADB_ROOT_HOST: '%'
+      MARIADB_DATABASE: 'ahmadrezam'
+      MARIADB_PASSWORD: 'ahmadrezam'
+      MARIADB_ROOT_PASSWORD: 'ahmadrezam'
+    privileged: true
+    ports:
+        - "3306:80"
+    volumes:
+        - '/mnt/part1/projects/laravel/ahmadrezam/ahmadrezam-v10/mariadb2:/var/lib/mysql'
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    links:
+        - mariadb:mariadb
+    ports:
+        - '8080:80'
+    environment:
+        MYSQL_USERNAME: "ahmadrezam"
+        MYSQL_ROOT_PASSWORD: "ahmadrezam"
+        PMA_HOST: mariadb
+        UPLOAD_LIMIT: 64M
+    networks:
+      ahmadrezam:
+        ipv4_address: 172.18.0.3
+networks:
+  ahmadrezam:
+    ipam:
+        driver: default
+        config:
+            - subnet: "172.18.0.0/24"

@@ -3,42 +3,50 @@
 @section('main')
 <div class="container">
     <div class="row justify-content-center">
-            <div class="card">
-                <ul class="list-group list-group-flush">
-                    @foreach ($list as $item)
-                        <li class="list-group-item"></li>
-                        <li class="list-group-item">
-                            <a href={{route("panel.article.edit", $item->article_code)}}>
-                                {{ $item->title }}
-                            </a>
-                            <form action={{route("panel.article.update", $item->article_code)}} method="POST">
-                                @csrf
-                                @method("put")
-                                <input type="name" name="title" value="title">
-                                <input type="submit" value="update">
-                            </form>
+        <div class="table-responsive" style="padding-top:20px;">
+            <form action={{route("panel.article.create")}} method="POST">
+                @csrf
+                <div class="d-flex justify-content-end">
+                    <input class="form-control" style="border-top-right-radius: 0px; border-bottom-right-radius: 0px;" type="name" name="title" value="title">
+                    <input class="btn btn-primary" style=" color:white; border-top-left-radius: 0px; border-bottom-left-radius: 0px;" type="submit" value="New article">
+                </div>
+            </form>
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Create at</th>
+                    <th scope="col">Title</th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+                    <tbody>
+                        @foreach ($list as $item)
+                        <tr>
+                        <th scope="row">3</th>
+                        <th scope="row">{{ $item->create_at }}</th>
+                        <td>
+                                <form action={{route("panel.article.update", $item->article_code)}} method="POST">
+                                    @csrf
+                                    @method("put")
+                                    <div class="d-flex justify-content-end">
+                                        <input class="form-control" style="border-top-right-radius: 0px; border-bottom-right-radius: 0px;" type="name" name="title" value="title">
+                                        <input class="btn btn-success" style="border-top-left-radius: 0px; border-bottom-left-radius: 0px;" type="submit" value="update">
+                                    </div>
+                                </form>
+                        </td>
+                        <td>
                             <form action={{route("panel.article.destroy", $item->article_code)}} method="POST">
                                 @csrf
                                 @method("delete")
-                                <input type="submit" value="delete">
+                                <input class="btn btn-danger" type="submit" value="delete">
                             </form>
-                        </li>
-                    @endforeach
-                  </ul>      
-            </div>
-
-           <!-- Modal HTML embedded directly into document -->
-            <div id="ex1" class="modal">
-                <p>Thanks for clicking. That felt good.</p>
-                <a href="#" rel="modal:close">Close</a>
-            </div>
-            
-            <form action={{route("panel.article.create")}} method="POST">
-                @csrf
-                <p>title please</p>
-                <input type="text" name="title" >
-                <input type="submit" value="submit create article" >
-            </form>
+                        </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+            </table>
+        </div>
     </div>
 </div>
 

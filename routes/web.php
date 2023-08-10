@@ -21,7 +21,7 @@ Route::get('/', [IndexController::class , 'index']);
 
 Route::group(
     [
-        'middleware' => ['auth:admin'],
+        // 'middleware' => ['auth:admin'],
         'prefix' => 'panel',
         'as' => 'panel.'
     ], function(){

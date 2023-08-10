@@ -1920,7 +1920,7 @@
             colors["#3F3151"] = settings.translations.purple;
             colors["#31859B"] = settings.translations.darkTurquois;
             colors["#4BACC6"] = settings.translations.turquois;
-            colors["#E36C09"] = settings.translations.darkOrange;
+            colors["#BD5D38"] = settings.translations.darkOrange;
             colors["#F79646"] = settings.translations.orange;
             colors["#FFFF00"] = settings.translations.yellow;
 
