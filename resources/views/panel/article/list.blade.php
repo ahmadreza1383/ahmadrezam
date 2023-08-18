@@ -23,7 +23,7 @@
                     <tbody>
                         @foreach ($list as $item)
                         <tr>
-                        <th scope="row">{{ $item->article_code }}</th>
+                        <th scope="row"><a href="{{ route('panel.articles.edit', $item->article_code) }}">{{ $item->article_code }}</a></th>
                         <th scope="row">{{ $item->category_id }}</th>
                         <td>
                                 <form action={{route("panel.articles.update", $item->article_code)}} method="POST">
