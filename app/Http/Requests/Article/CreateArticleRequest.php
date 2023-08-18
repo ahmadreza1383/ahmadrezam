@@ -29,5 +29,5 @@ class CreateArticleRequest extends FormRequest
         ];
     }
 
-   
+
 }

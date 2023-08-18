@@ -4,11 +4,9 @@ namespace App\Http\Requests\Article\Category;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 
-class CreateArticleCategoryRequest extends FormRequest
+class UpdateArticleCategoryRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

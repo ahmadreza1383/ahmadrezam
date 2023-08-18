@@ -4,9 +4,12 @@ namespace App\Http\Controllers\Panel;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Article\Category\CreateArticleCategoryRequest;
+use App\Http\Requests\Article\Category\UpdateArticleCategoryRequest;
 use App\Models\ArticleCategory;
+use App\Repositories\ArticleCategoryRepository;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Log;
 
 class ArticleCategoryController extends Controller
 {
@@ -17,7 +20,9 @@ class ArticleCategoryController extends Controller
      */
     public function index()
     {
-        //
+        $categories = ArticleCategoryRepository::all();
+
+        return view('panel/article-category/index', compact('categories'));
     }
 
     /**
@@ -25,11 +30,11 @@ class ArticleCategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(CreateArticleCategoryRequest $request)
+    public function create()
     {
-        ArticleCategory::create($request);
+        $categories = ArticleCategoryRepository::all();
 
-        return Response::make('success', 200);
+        return view('panel.article-category.create', compact('categories'));
     }
 
     /**
@@ -38,9 +43,19 @@ class ArticleCategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateArticleCategoryRequest $request)
     {
-        //
+        $request = array_merge(($request->validated()), [
+            'category_code' => uniq_code(ArticleCategory::class, 'category_code'),
+            'status' => 1,
+        ]);
+
+        ArticleCategoryRepository::store($request);
+
+        return response()->json([
+            'message' => 'The category successfully created',
+            'success' => true,
+        ]);
     }
 
     /**
@@ -62,7 +77,13 @@ class ArticleCategoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        $category = ArticleCategoryRepository::where($id);
+
+        if(! $category || empty($category)) return abort(404);
+
+        $categories = ArticleCategoryRepository::all();
+
+        return view('panel.article-category.edit', compact('category', 'categories'));
     }
 
     /**
@@ -72,9 +93,18 @@ class ArticleCategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateArticleCategoryRequest $request, $id)
     {
-        //
+        $exists = ArticleCategoryRepository::exists($id);
+
+        if(! $exists) return abort(404);
+
+        ArticleCategoryRepository::update($id, $request->validated());
+
+        return response()->json([
+            'message' => 'The category successfully updated',
+            'success' => true,
+        ]);
     }
 
     /**

@@ -10,6 +10,12 @@ class ArticleCategory extends Model
     use HasFactory;
     protected $fillable = [
         'name',
+        'parent_id',
+        'status',
         'category_code',
     ];
+
+    public function allCategory()
+    {
+    }
 }

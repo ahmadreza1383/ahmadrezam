@@ -6,8 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 if(! function_exists("uniq_code"))
 {
-    
-    function uniq_code(Model $model, $field){
+
+    function uniq_code($model, $field){
+        $model = app()->make($model);
+
         $random = random_int(1000000, 9999999);
         $check = true;
         while( $check === false ){

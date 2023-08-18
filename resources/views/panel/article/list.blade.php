@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="table-responsive" style="padding-top:20px;">
-            <form action={{route("panel.article.create")}} method="POST">
+            <form action={{route("panel.articles.create")}} method="POST">
                 @csrf
                 <div class="d-flex justify-content-end">
                     <input class="form-control" style="border-top-right-radius: 0px; border-bottom-right-radius: 0px;" type="name" name="title" value="title">
@@ -15,7 +15,7 @@
                 <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Create at</th>
+                    <th scope="col">Category</th>
                     <th scope="col">Title</th>
                     <th scope="col"></th>
                 </tr>
@@ -23,10 +23,10 @@
                     <tbody>
                         @foreach ($list as $item)
                         <tr>
-                        <th scope="row">3</th>
-                        <th scope="row">{{ $item->create_at }}</th>
+                        <th scope="row">{{ $item->article_code }}</th>
+                        <th scope="row">{{ $item->category_id }}</th>
                         <td>
-                                <form action={{route("panel.article.update", $item->article_code)}} method="POST">
+                                <form action={{route("panel.articles.update", $item->article_code)}} method="POST">
                                     @csrf
                                     @method("put")
                                     <div class="d-flex justify-content-end">
@@ -36,7 +36,7 @@
                                 </form>
                         </td>
                         <td>
-                            <form action={{route("panel.article.destroy", $item->article_code)}} method="POST">
+                            <form action={{route("panel.articles.destroy", $item->article_code)}} method="POST">
                                 @csrf
                                 @method("delete")
                                 <input class="btn btn-danger" type="submit" value="delete">

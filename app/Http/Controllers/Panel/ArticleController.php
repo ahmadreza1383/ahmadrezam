@@ -33,11 +33,11 @@ class ArticleController extends Controller
                 'category_id' => 1,
                 'title' => $request['title'],
                 'content' => '',
-                'article_code' => uniq_code(new Article(), 'article_code'),
+                'article_code' => uniq_code(Article::class, 'article_code'),
             ]
         );
 
-        return redirect(route('panel.article.edit', $create->article_code));
+        return redirect(route('panel.articles.edit', $create->article_code));
     }
 
     /**
@@ -75,7 +75,7 @@ class ArticleController extends Controller
         $article = ArticleRepository::where(['article_code' => $code]);
 
         if($article->exists() == false)
-        return redirect(route('panel.article'));
+        return redirect(route('panel.articles'));
 
         $row = $article->first();
 
@@ -107,11 +107,10 @@ class ArticleController extends Controller
      */
     public function updateContent(Request $request, $code)
     {
-        //
         article(ArticleRepository::where(['article_code' => $code]))
         ->update(['content' => $request->content]);
 
-        echo "success";
+        return response(status:200);
     }
 
 
@@ -125,6 +124,6 @@ class ArticleController extends Controller
     {
         article(ArticleRepository::where(['article_code' => $articleCode]))->delete();
 
-        return redirect(route('panel.article'));
+        return redirect(route('panel.articles'));
     }
 }

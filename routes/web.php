@@ -17,11 +17,14 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+Auth::routes(['register' => false]);
 Route::get('/', [IndexController::class , 'index']);
+Route::get('articles', [ArticleController::class, 'index']);
 
 Route::group(
     [
-        // 'middleware' => ['auth:admin'],
+        'middleware' => ['auth'],
         'prefix' => 'panel',
         'as' => 'panel.'
     ], function(){
@@ -39,9 +42,9 @@ Route::group(
 
         Route::group(
         [
-            'prefix' => 'article',
+            'prefix' => 'articles',
             'controller' => ArticleController::class,
-            'as' => 'article',
+            'as' => 'articles',
         ], function()
         {
             Route::get('/', 'index');
@@ -51,21 +54,15 @@ Route::group(
             Route::put('/update/{code}', 'update')->name('.update');
             Route::put('/update/{code}/content', 'updateContent')->name('.update.content');
             Route::put('/status/{code}', 'status')->name('.status');
-
-            Route::group(
-            [
-                'prefix' => 'category',
-                'controller' => ArticleCategoryController::class,
-                'as' => '.category',
-            ], function()
-            {
-                Route::get('/', 'index');
-                Route::post('/create', 'create')->name('.create');
-                Route::get('/edit/{code}', 'edit')->name('.edit');
-                Route::delete('/destroy/{code}', 'destroy')->name('.destroy');
-                Route::put('/update/{code}', 'update')->name('.update');
-                Route::put('/status/{code}', 'status')->name('.status');
-            });
         });
+
+        Route::resource('article-categories', ArticleCategoryController::class);
     }
 );
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+// Route::get('hash', function () {
+    // dd(Hash::make('ahmadreza.1383.2005'));
+// });

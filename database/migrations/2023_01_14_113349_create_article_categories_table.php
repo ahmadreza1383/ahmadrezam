@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string("name", 100);
             $table->tinyInteger('status');
             $table->integer('category_code')->unique();
+            $table->integer('parent_id')->nullable();
             $table->timestamps();
         });
     }
