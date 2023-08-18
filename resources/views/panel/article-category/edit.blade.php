@@ -6,15 +6,6 @@
         <div style="padding-top: 10px">
             <h3>Edit category</h3>
             <div class="table-responsive" style="padding-top:20px;">
-                {{-- <form id="form-request" action="{{ route('panel.article-categories.update', $articleCategory->id) }}">
-                    @csrf
-                    @method('put')
-                    <div class="d-flex justify-content-end">
-                        <input type="text" name="name" value="{{$articleCategory->name}}"  class="form-control" style="border-top-right-radius: 0px; border-bottom-right-radius: 0px;" id="formGroupExampleInput" placeholder="Category name">
-                        <button type="button" class="btn btn-primary submit-btn" style=" color:white; border-top-left-radius: 0px; border-bottom-left-radius: 0px;" >New</button>
-                    </div>
-                </form> --}}
-
                 <form id="form-request" action="{{ route('panel.article-categories.update', $category->id) }}">
                     @csrf
                     @method('put')
