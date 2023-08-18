@@ -24,53 +24,15 @@
 
 @endsection
 
-@section('script')
+@section('sendForm')
 <script type="text/javascript">
     let success = "The create category succesfully";
-</script>
 
-<script type="text/javascript">
     $('.submit-btn').click(function() {
-    var form = $('#form-request');
-    var formData = form.serialize();
-    var url = form.attr('action');
-
-    $.ajax({
-        url: url,
-        type: 'POST',
-        data: formData,
-        success: function(response, status) {
-            if(response.success == true){
-                if (response.message !== "") {
-                    toastr.success(response.message);
-                } else if (typeof success !== "undefined" && success !== "") {
-                    toastr.success(success);
-                } else {
-                    toastr.success("The operation successfully");
-                }
-            } else {
-                var decodedResponse = response.message;
-                for (var key in decodedResponse) {
-                    if (decodedResponse.hasOwnProperty(key)) {
-                        toastr.error(decodedResponse[key]);
-                    }
-                }
-            }
-        },
-        error: function(response, status) {
-            if(response.success == false){
-                console.log(response.message);
-                var decodedResponse = response.message;
-                for (var key in decodedResponse) {
-                    if (decodedResponse.hasOwnProperty(key)) {
-                        toastr.error(decodedResponse[key]);
-                    }
-                }
-            } else {
-                toastr.error('There is a Problem');
-            }
-        }
-    });
+        var form = $('#form-request');
+        var formData = form.serialize();
+        var url = form.attr('action');
+        sendForm(form, formData, url);
     });
 </script>
 @endsection

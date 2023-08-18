@@ -26,12 +26,12 @@
                         <th scope="row"><a href="{{ route('panel.articles.edit', $item->article_code) }}">{{ $item->article_code }}</a></th>
                         <th scope="row">{{ $item->category_id }}</th>
                         <td>
-                                <form action={{route("panel.articles.update", $item->article_code)}} method="POST">
+                                <form id="form-request'" action={{route("panel.articles.update", $item->article_code)}} method="POST">
                                     @csrf
                                     @method("put")
                                     <div class="d-flex justify-content-end">
                                         <input class="form-control" style="border-top-right-radius: 0px; border-bottom-right-radius: 0px;" type="name" name="title" value="title">
-                                        <input class="btn btn-success" style="border-top-left-radius: 0px; border-bottom-left-radius: 0px;" type="submit" value="update">
+                                        <input class="btn btn-success submit-btn" style="border-top-left-radius: 0px; border-bottom-left-radius: 0px;" type="button" value="update">
                                     </div>
                                 </form>
                         </td>
@@ -49,7 +49,17 @@
         </div>
     </div>
 </div>
+@endsection
 
+@section('sendForm')
+<script type="text/javascript">
+    $('.submit-btn').click(function() {
+        var form = $('#form-request');
+        var formData = form.serialize();
+        var url = form.attr('action');
+        sendForm(form, formData, url);
+    });
+</script>
 @endsection
 
 

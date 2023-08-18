@@ -34,6 +34,49 @@
         <script src={{asset("assets/js/scripts.js")}}></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
         @yield('script')
+        @hasSection('sendForm')
+            <script type="text/javascript">
+                function sendForm(form, formData, url, method='POST'){
+                    $.ajax({
+                        url: url,
+                        type: method,
+                        data: formData,
+                        success: function(response, status) {
+                            if(response.success == true){
+                                if (response.message !== "") {
+                                    toastr.success(response.message);
+                                } else if (typeof success !== "undefined" && success !== "") {
+                                    toastr.success(success);
+                                } else {
+                                    toastr.success("The operation successfully");
+                                }
+                            } else {
+                                var decodedResponse = response.message;
+                                for (var key in decodedResponse) {
+                                    if (decodedResponse.hasOwnProperty(key)) {
+                                        toastr.error(decodedResponse[key]);
+                                    }
+                                }
+                            }
+                        },
+                        error: function(response, status) {
+                            if(response.success == false){
+                                console.log(response.message);
+                                var decodedResponse = response.message;
+                                for (var key in decodedResponse) {
+                                    if (decodedResponse.hasOwnProperty(key)) {
+                                        toastr.error(decodedResponse[key]);
+                                    }
+                                }
+                            } else {
+                                toastr.error('There is a Problem');
+                            }
+                        }
+                    });
+                }
+            </script>
+        @endif
+        @yield('sendForm')
     </body>
 </html>
 
