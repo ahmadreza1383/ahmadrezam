@@ -37,9 +37,11 @@ class ArticleController extends Controller
     {
         $request = $request->validated();
 
+        $articleCategory = ArticleCategoryRepository::where(['category_code' => $request['category_code']]);
+
         $create = ArticleRepository::create(
             [
-                'category_id' => 1,
+                'category_id' => $articleCategory->id,
                 'title' => $request['title'],
                 'content' => '',
                 'article_code' => uniq_code(Article::class, 'article_code'),
