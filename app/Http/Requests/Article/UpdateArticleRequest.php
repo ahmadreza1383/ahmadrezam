@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Article;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class UpdateArticleRequest extends FormRequest
 {
@@ -13,7 +14,7 @@ class UpdateArticleRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +25,15 @@ class UpdateArticleRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'title' => 'required|string|unique:articles,title'
         ];
+    }
+
+    public function failedValidation(\Illuminate\Contracts\Validation\Validator $validated)
+    {
+        throw new HttpResponseException(response()->json([
+            'message' => $validated->errors(),
+            'success' => false
+        ]));
     }
 }

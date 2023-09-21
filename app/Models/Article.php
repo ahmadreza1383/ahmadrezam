@@ -18,4 +18,9 @@ class Article extends Model
     public static $max = [
         'title' => 200,
     ];
+
+    public function category()
+    {
+        return $this->hasOne(ArticleCategory::class, 'id', 'category_id');
+    }
 }

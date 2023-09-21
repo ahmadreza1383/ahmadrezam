@@ -26,6 +26,7 @@ class CreateArticleRequest extends FormRequest
     {
         return [
             'title' => 'required|string|max:'.Article::$max['title'],
+            'category_code' => 'required|integer|exists:article_categories,category_code',
         ];
     }
 

@@ -7,6 +7,9 @@ use App\Models\Article;
 use App\Repositories\ArticleRepository;
 use Illuminate\Http\Request;
 use App\Http\Requests\Article\CreateArticleRequest;
+use App\Http\Requests\Article\UpdateArticleRequest;
+use App\Repositories\ArticleCategoryRepository;
+
 class ArticleController extends Controller
 {
     /**
@@ -14,9 +17,9 @@ class ArticleController extends Controller
      */
     public function index()
     {
+        $articles = ArticleRepository::get('category');
 
-        $list = ArticleRepository::get();
-        return view("panel/article/list", compact('list'));
+        return view("panel/article/index", compact('articles'));
     }
 
     /**
@@ -24,7 +27,13 @@ class ArticleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(CreateArticleRequest $request)
+    public function create(){
+        $categories = ArticleCategoryRepository::all();
+
+        return view("panel.article.create", compact('categories'));
+    }
+
+    public function store(CreateArticleRequest $request)
     {
         $request = $request->validated();
 
@@ -46,11 +55,6 @@ class ArticleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store()
-    {
-
-        return view("panel.article.create");
-    }
 
     /**
      * Display the specified resource.
@@ -93,9 +97,14 @@ class ArticleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $code)
+    public function update(UpdateArticleRequest $request, $code)
     {
+        ArticleRepository::where(['article_code' => $code])->update($request->validated());
 
+        return response()->json([
+            'message' => 'The article successfully created',
+            'success' => true,
+        ]);
     }
 
     /**
@@ -124,6 +133,6 @@ class ArticleController extends Controller
     {
         article(ArticleRepository::where(['article_code' => $articleCode]))->delete();
 
-        return redirect(route('panel.articles'));
+        return redirect()->route('panel.articles.index');
     }
 }
