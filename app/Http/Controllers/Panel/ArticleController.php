@@ -118,8 +118,10 @@ class ArticleController extends Controller
      */
     public function updateContent(Request $request, $code)
     {
-        article(ArticleRepository::where(['article_code' => $code]))
-        ->update(['content' => $request->content]);
+        $article = ArticleRepository::where(['article_code' => $code])->first();
+        if(empty($article)) return abort(404);
+        $article->content = $request->content;
+        $article->save();
 
         return response(status:200);
     }
