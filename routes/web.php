@@ -4,9 +4,9 @@ use App\Http\Controllers\Panel\HomeController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\Panel\AboutMeController;
 use App\Http\Controllers\Panel\ArticleCategoryController;
-use App\Http\Controllers\Panel\ArticleController;
+use App\Http\Controllers\Panel\ArticleController as PanelArticleController;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\ArticleController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes(['register' => false]);
 Route::get('/', [IndexController::class , 'index']);
-Route::get('articles', [ArticleController::class, 'index']);
+Route::resource('articles', ArticleController::class)->only(['index', 'show']);
 
 Route::group(
     [
@@ -40,23 +40,10 @@ Route::group(
             Route::post('/update', 'update')->name('.update');
         });
 
-        Route::group(
-        [
-            'prefix' => 'articles',
-            'controller' => ArticleController::class,
-            'as' => 'articles',
-        ], function()
-        {
-            Route::get('/', 'index');
-            Route::post('/create', 'create')->name('.create');
-            Route::get('/edit/{code}', 'edit')->name('.edit');
-            Route::delete('/destroy/{code}', 'destroy')->name('.destroy');
-            Route::put('/update/{code}', 'update')->name('.update');
-            Route::put('/update/{code}/content', 'updateContent')->name('.update.content');
-            Route::put('/status/{code}', 'status')->name('.status');
-        });
-
+        Route::resource('articles', PanelArticleController::class);
         Route::resource('article-categories', ArticleCategoryController::class);
+        Route::put('article-categories/update/content/{code}', [PanelArticleController::class, 'updateContent'])
+        ->name('articles.update.content');
     }
 );
 
