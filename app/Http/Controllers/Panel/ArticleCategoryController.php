@@ -77,7 +77,7 @@ class ArticleCategoryController extends Controller
      */
     public function edit($id)
     {
-        $category = ArticleCategoryRepository::where($id);
+        $category = ArticleCategoryRepository::where(['id' => $id]);
 
         if(! $category || empty($category)) return abort(404);
 
@@ -113,8 +113,10 @@ class ArticleCategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($categoryCode)
     {
-        //
+        ArticleCategoryRepository::delete($categoryCode);
+
+        return redirect(route('panel.article-categories.index'));
     }
 }

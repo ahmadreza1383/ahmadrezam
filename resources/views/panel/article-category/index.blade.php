@@ -29,7 +29,12 @@
                                   <li><a class="dropdown-item" href="#">View</a></li>
                                   <li><a class="dropdown-item" href="{{ route('panel.article-categories.edit', $category->id) }}">Update</a></li>
                                   <li>
-                                    <a class="dropdown-item" href="#">Delete</a>
+                                    <form action="{{ route('panel.article-categories.destroy', $category->category_code) }}" method="POST">
+                                        @csrf
+                                        @method('delete')
+                                        <button class="dropdown-item" href="#">Delete</button>
+
+                                    </form>
                                 </li>
                                 </ul>
                               </div>

@@ -15,7 +15,13 @@ class ArticleCategory extends Model
         'category_code',
     ];
 
-    public function allCategory()
+    public function articles()
     {
+        return $this->hasMany(Article::class, 'category_id');
+    }
+
+    public function childCategories()
+    {
+        return $this->hasMany(ArticleCategory::class, 'parent_id');
     }
 }
