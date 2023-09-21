@@ -9,8 +9,8 @@ use Illuminate\Support\Facades\Storage;
 class IndexController extends Controller
 {
     //
-    public function index(){
-
+    public function index()
+    {
         $about = new AboutMeController();
         $content = Storage::disk('local')->get($about->file);
 
