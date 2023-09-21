@@ -15,9 +15,11 @@ class ArticleRepository{
     /**
      * Get all column
      */
-    public static function get()
+    public static function get($with = [])
     {
-        return Article::all();
+        if(empty($with)) return Article::all();
+
+        return Article::with($with)->get();
     }
 
     /**
