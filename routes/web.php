@@ -19,7 +19,7 @@ use App\Http\Controllers\ArticleController;
 */
 
 Auth::routes(['register' => false]);
-Route::get('/', [IndexController::class , 'index']);
+Route::get('/', [IndexController::class , 'index'])->name('index');
 Route::resource('articles', ArticleController::class)->only(['index', 'show']);
 
 Route::group(
@@ -48,8 +48,3 @@ Route::group(
 );
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-
-// Route::get('hash', function () {
-    // dd(Hash::make('ahmadreza.1383.2005'));
-// });
