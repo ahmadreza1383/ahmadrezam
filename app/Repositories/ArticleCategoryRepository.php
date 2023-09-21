@@ -16,9 +16,9 @@ class ArticleCategoryRepository
         return ArticleCategory::create($data);
     }
 
-    public static function where($id)
+    public static function where(array $conditions)
     {
-        return ArticleCategory::where('id', '=' ,$id)->first();
+        return ArticleCategory::where($conditions)->first();
     }
 
     public static function exists($id)
@@ -29,6 +29,11 @@ class ArticleCategoryRepository
     public static function update($id, $data)
     {
         return ArticleCategory::where('id', '=' ,$id)->update($data);
+    }
+
+    public static function delete($code)
+    {
+        return ArticleCategory::where('category_code', '=' ,$code)->delete();
     }
 }
 ?>
