@@ -22,18 +22,20 @@
                                     <ul>
                                         @foreach ($articleCategories as $category)
                                         <li>
-                                            <a href="category" target="_self">{{$category->name}}</a>
+                                            <a href="{{ route('articles.index') }}?name={{ $category->name }}" target="_self">{{$category->name}}</a>
                                         </li>
                                         @endforeach
                                     </ul>
                                 </td>
                             </tr>
                             <tr style="border-top: hidden">
-                                <td>OTHER CATEGORIES<br>
+                                <td>OTHER ARTICLES<br>
                                     <ul>
+                                        @foreach ($articles as $article)
                                         <li>
-                                            <a href="http://127.0.0.1:82/panel/articles/9440714/Category1" target="_self">&nbsp;Category 1</a>
+                                            <a href="{{ route('articles.show', $article->article_code) }}" target="_self">{{ $article->title }}</a>
                                         </li>
+                                        @endforeach
                                     </ul>
                                 </td>
                             </tr>
