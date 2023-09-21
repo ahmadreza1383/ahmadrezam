@@ -52,9 +52,9 @@ class ArticleRepository{
      * Where column
      * @param array $array  array list for where
      */
-    public static function where(array $array)
+    public static function where(array $conditions)
     {
-        return Article::where($array);
+        return Article::where($conditions);
     }
 }
 ?>
