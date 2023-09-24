@@ -34,6 +34,7 @@
             bold: true,
             italic: true,
             underline: true,
+            btnPreCode: true,
 
             // text alignment
             leftAlign: true,
@@ -201,6 +202,12 @@
                 "data-command": "bold",
                 "title": settings.translations.bold,
                 html: '<span class="fa fa-bold"></span>'
+            }), // bold
+            $btnPreCode = $('<a />', {
+                class: "richText-btn",
+                "data-command": "preCode",
+                "title": settings.translations.bold,
+                html: '<span class="fa fa-code"></span>'
             }), // bold
             $btnItalic = $('<a />', {
                 class: "richText-btn",
@@ -589,6 +596,9 @@
             }
             if (settings.italic === true) {
                 $toolbarList.append($toolbarElement.clone().append($btnItalic));
+            }
+            if (settings.btnPreCode === true) {
+                $toolbarList.append($toolbarElement.clone().append($btnPreCode));
             }
             if (settings.underline === true) {
                 $toolbarList.append($toolbarElement.clone().append($btnUnderline));
@@ -1286,6 +1296,12 @@
                 event.preventDefault();
                 var command = $(this).data("command");
 
+                //Edited by Ahmadreza
+
+                if(command == "preCode"){
+                    preCode(command, option, id);
+                }
+
                 if (command === "toggleCode") {
                     toggleCode($editor.attr("id"));
                 } else {
@@ -1962,6 +1978,27 @@
             }
         }
 
+        function preCode(command, option, editorID) {
+            console.log(command);
+            console.log(option);
+            console.log(editorID);
+            if (typeof option === "undefined") {
+                option = null;
+            }
+            // restore selection from before clicking on any button
+            doRestore(editorID);
+            // Temporarily enable designMode so that
+            // document.execCommand() will work
+            // document.designMode = "ON";
+            // Execute the command
+            var selection = getSelectedText();
+            selection = (selection + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + '<br>' + '$2');
+            console.log(selection);
+            var html = "<pre style=\"display: block; background-color:#1f1f1f; color:#9cdcfe; padding:5px; font-family: monospace; white-space: pre; margin: 1em 0;\">" + selection + "</pre>";
+            pasteHTMLAtCaret(html);
+            // Disable designMode
+            // document.designMode = "OFF";
+        }
 
         /**
          * Convert caret position from editor to code view (or in reverse)
