@@ -35,6 +35,7 @@
             italic: true,
             underline: true,
             btnPreCode: true,
+            btnPreCodePrism: true,
 
             // text alignment
             leftAlign: true,
@@ -94,6 +95,8 @@
 
             // translations
             translations: {
+                'preCode': 'preCode',
+                'preCodePrism': 'Pre Code Prism',
                 'title': 'Title',
                 'white': 'White',
                 'black': 'Black',
@@ -156,7 +159,15 @@
                 'code': 'Show HTML code',
                 'undo': 'Undo',
                 'redo': 'Redo',
-                'close': 'Close'
+                'close': 'Close',
+                //Added by ahmadreza
+                'css': 'CSS',
+                'javascript': 'Js',
+                'php': 'PHP',
+                'html': 'HTML',
+                'cpp': 'C++',
+                'c': 'C',
+                'golang': 'GO',
             },
 
             // privacy
@@ -206,7 +217,7 @@
             $btnPreCode = $('<a />', {
                 class: "richText-btn",
                 "data-command": "preCode",
-                "title": settings.translations.bold,
+                "title": settings.translations.preCode,
                 html: '<span class="fa fa-code"></span>'
             }), // bold
             $btnItalic = $('<a />', {
@@ -267,6 +278,11 @@
                 "title": settings.translations.addFont,
                 html: '<span class="fa fa-font"></span>'
             }), // font color
+            $btnPreCodePrism = $('<a />', {
+                class: "richText-btn",
+                "title": settings.translations.preCodePrism,
+                html: '<span class="fa fa-code"></span>'
+            }), // bold
             $btnFontColor = $('<a />', {
                 class: "richText-btn",
                 "title": settings.translations.addFontColor,
@@ -376,6 +392,11 @@
         var $fontColors = $dropdownList.clone();
         $fontColors.html(loadColors("forecolor"));
         $btnFontColor.append($dropdownOuter.clone().append($fontColors.prepend($dropdownClose.clone())));
+
+        //Added by ahmadreza
+        var $btnPreCodePrisms = $dropdownList.clone();
+        $btnPreCodePrisms.html(loadPreCodePrisms("precodeprism"));
+        $btnPreCodePrism.append($dropdownOuter.clone().append($btnPreCodePrisms.prepend($dropdownClose.clone())));
 
         /* background colors */
         var $backgroundColors = $dropdownList.clone();
@@ -600,6 +621,7 @@
             if (settings.btnPreCode === true) {
                 $toolbarList.append($toolbarElement.clone().append($btnPreCode));
             }
+
             if (settings.underline === true) {
                 $toolbarList.append($toolbarElement.clone().append($btnUnderline));
             }
@@ -639,6 +661,9 @@
                 $toolbarList.append($toolbarElement.clone().append($btnHeading));
             }
 
+            if (settings.btnPreCodePrism === true) {
+                $toolbarList.append($toolbarElement.clone().append($btnPreCodePrism));
+            }
             /* font colors */
             if (settings.fontColor === true) {
                 $toolbarList.append($toolbarElement.clone().append($btnFontColor));
@@ -1302,6 +1327,11 @@
                     preCode(command, option, id);
                 }
 
+                if(command == "precodeprism"){
+                    var option = $(this).data("option");
+                    preCodePrism(command, option, id);
+                }
+
                 if (command === "toggleCode") {
                     toggleCode($editor.attr("id"));
                 } else {
@@ -1950,6 +1980,33 @@
             return result;
         }
 
+                /**
+         * Load colors for font or background
+         * @param {string} command Command
+         * @returns {string}
+         * @private
+         */
+        function loadPreCodePrisms(command) {
+            var languages = [];
+            var result = '';
+
+            // language["css"] = settings.translations.white;
+            languages["css"] = settings.translations.css;
+            languages["javascript"] = settings.translations.javascript;
+            languages["php"] = settings.translations.php;
+            languages["html"] = settings.translations.html;
+            languages["cpp"] = settings.translations.cpp;
+            languages["c"] = settings.translations.c;
+            languages["golang"] = settings.translations.golang;
+            if (settings.languages && settings.languages.length > 0) {
+                languages = settings.languages;
+            }
+
+            for (var i in languages) {
+                result += '<li class="inline"><a style="padding:7px;" data-command="' + command + '" data-option="' + i + '" style="text-align:left;" title="' + languages[i] + '">'+languages[i]+'</li>';
+            }
+            return result;
+        }
 
         /**
          * Toggle (show/hide) code or editor
@@ -1979,15 +2036,11 @@
         }
 
         function preCode(command, option, editorID) {
-            console.log(command);
-            console.log(option);
-            console.log(editorID);
             if (typeof option === "undefined") {
                 option = null;
             }
             // restore selection from before clicking on any button
             doRestore(editorID);
-            // Temporarily enable designMode so that
             // document.execCommand() will work
             // document.designMode = "ON";
             // Execute the command
@@ -1995,6 +2048,27 @@
             selection = (selection + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + '<br>' + '$2');
             console.log(selection);
             var html = "<pre style=\"display: block; background-color:#1f1f1f; color:#9cdcfe; padding:5px; font-family: monospace; white-space: pre; margin: 1em 0;\">" + selection + "</pre>";
+            pasteHTMLAtCaret(html);
+            // Disable designMode
+            // document.designMode = "OFF";
+        }
+
+        function preCodePrism(command, option, editorID) {
+            if (typeof option === "undefined") {
+                option = null;
+            }
+
+            console.log(option);
+            // restore selection from before clicking on any button
+            doRestore(editorID);
+            // document.execCommand() will work
+            // document.designMode = "ON";
+            // Execute the command
+            var selection = getSelectedText();
+            selection = (selection + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + '<br>' + '$2');
+
+            // var html = '<pre style="font-family: monospace; white-space: pre-wrap; margin: 1em 0;"><code class="language-'+ option +'">'+selection+'</code></pre>';
+            var html = '<pre class="language-xxxx" style="font-family: monospace; white-space: pre-wrap; margin: 1em 0;">'+selection+'</pre>';
             pasteHTMLAtCaret(html);
             // Disable designMode
             // document.designMode = "OFF";
