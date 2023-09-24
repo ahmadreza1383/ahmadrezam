@@ -1,5 +1,7 @@
 @extends('layouts.app')
 @section('head')
+<link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.16.0/themes/prism.min.css" rel="stylesheet"/>
+
 <title>{{$article->title}}</title>
 @endsection
 
@@ -46,5 +48,10 @@
         </div>
     </section>
 </div>
+
+@endsection
+
+@section('script')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.16.0/prism.min.js"></script>
 
 @endsection
