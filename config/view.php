@@ -33,4 +33,8 @@ return [
         realpath(storage_path('framework/views'))
     ),
 
+    'article_state' => [
+        0 => 'personal',
+        1 => 'published',
+    ],
 ];

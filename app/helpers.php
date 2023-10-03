@@ -28,3 +28,11 @@ if(! function_exists("article"))
         return new ArticleRepository($article);
     }
 }
+
+if(! function_exists("articleState"))
+{
+    function articleState()
+    {
+        return config('view.article_state');
+    }
+}

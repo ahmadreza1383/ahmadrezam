@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -14,6 +15,7 @@ class Article extends Model
         'title',
         'content',
         'article_code',
+        'status',
     ];
 
     public static $max = [
@@ -31,5 +33,10 @@ class Article extends Model
             get: fn($value) => base64_decode(htmlentities($value)),
             set: fn($value) => html_entity_decode(base64_encode($value)),
         );
+    }
+
+    public function scopePublished(Builder $query)
+    {
+        return $query->where(['status' => 1]);
     }
 }

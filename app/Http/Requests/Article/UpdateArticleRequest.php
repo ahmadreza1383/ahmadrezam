@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Article;
 
+use App\Rules\ArticleState;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
@@ -25,7 +26,9 @@ class UpdateArticleRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|string|unique:articles,title'
+            // 'title' => 'required|string|unique:articles,title',
+            'title' => 'required|string',
+            'status' => ['required', 'integer', new ArticleState],
         ];
     }
 

@@ -29,6 +29,11 @@
                         </th>
                         <td>
                             <form id="form-request" action={{route("panel.articles.update", $article->article_code)}} method="POST">
+                                <select class="form-control" name="status">
+                                    @foreach (articleState() as $key => $state)
+                                        <option value={{$key}}>{{ $state }}</option>
+                                    @endforeach
+                                </select>
                                 @csrf
                                 @method("put")
                                 <div class="d-flex justify-content-end">
