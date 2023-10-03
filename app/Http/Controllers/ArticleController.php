@@ -43,7 +43,7 @@ class ArticleController extends Controller
 
     public function show($articleCode)
     {
-        $article = ArticleRepository::where(['article_code' => $articleCode])->first();
+        $article = ArticleRepository::where(['article_code' => $articleCode])->published()->first();
         if(! $article)
         {
             return abort(404);
@@ -52,7 +52,7 @@ class ArticleController extends Controller
         $articles = Article::select([
             'title',
             'article_code'
-        ])->limit(10)->get();
+        ])->published()->limit(10)->get();
 
         $articleCategories = ArticleCategory::select([
             'name',
