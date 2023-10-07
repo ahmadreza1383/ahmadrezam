@@ -7,6 +7,7 @@ use App\Http\Controllers\Panel\ArticleCategoryController;
 use App\Http\Controllers\Panel\ArticleController as PanelArticleController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ArticleController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -46,5 +47,3 @@ Route::group(
         ->name('articles.update.content');
     }
 );
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
