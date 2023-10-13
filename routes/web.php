@@ -7,6 +7,7 @@ use App\Http\Controllers\Panel\ArticleCategoryController;
 use App\Http\Controllers\Panel\ArticleController as PanelArticleController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\StreaksController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,7 +23,7 @@ use App\Http\Controllers\ArticleController;
 Auth::routes(['register' => false]);
 Route::get('/', [IndexController::class , 'index'])->name('index');
 Route::resource('articles', ArticleController::class)->only(['index', 'show']);
-
+Route::get('/streaks', [StreaksController::class, 'index'])->name('streaks.index');
 Route::group(
     [
         'middleware' => ['auth'],

@@ -14,6 +14,7 @@
             <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#interests">Interests</a></li>
             <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#awards">Awards</a></li>
             <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ route('articles.index') }}">Articles</a></li>
+            <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ route('streaks.index') }}">Streaks</a></li>
         </ul>
     </div>
 </nav>
