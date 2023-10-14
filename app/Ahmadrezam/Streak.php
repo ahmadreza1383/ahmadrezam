@@ -2,34 +2,28 @@
 
 namespace App\Ahmadrezam;
 
-use App\Models\Streak as ModelsStreak;
-use Closure;
-use DateTime;
-
 class Streak
 {
-    public function mounts()
+    private $year;
+
+    public function __construct($year = null)
     {
-        return $monthNames = [
-            'January' => 1, 'February' => 2, 'March' => 3, 'April' => 4,
-            'May' => 5, 'June' => 6, 'July' => 7, 'August' => 8,
-            'September' => 9, 'October' => 10, 'November' => 11, 'December' => 12,
-        ];
+        $this->year = (is_null($year)) ? date('Y') : $year;
     }
 
-    public function getYear($year)
+    private function getYear()
     {
-        return (is_null($year)) ? date('Y') : $year;
+        return $this->year;
     }
 
-    public function getCalDaysInMount($year = null, $mount)
+    public function getCalDaysInMount($mount)
     {
-        $year = $this->getYear($year);
+        $year = $this->getYear();
 
         return cal_days_in_month(CAL_GREGORIAN, $mount, $year);
     }
 
-    public function getCalDaysInMounts($year = null)
+    public function getCalDaysInMounts()
     {
         $getCalDaysInMounts = [];
         for($i = 1; $i <= 12; $i++){
@@ -41,39 +35,43 @@ class Streak
         return $getCalDaysInMounts;
     }
 
-    public function listOfDaysPerMount($year, $mount)
+    public function listOfDaysPerMount($mount, $options = [])
     {
-        $getYear = $this->getYear($year);
-        $listOfDaysPerMount = [];
-        $getCalDaysInMount = $this->getCalDaysInMount($year, $mount); // Get number days per mounts
+        $i = 1;
+        $getCalDaysInMount = $this->getCalDaysInMount($mount); // Get number days per mounts
 
-        for ($i=1; $i <= $getCalDaysInMount ; $i++) {
-            $listOfDaysPerMount[$i] = "$getYear/$mount/$i";
+        if(! empty($options['options']) && ! empty($options = $options['options'])){
+            if(isset($options['max']) && is_numeric($options['max'])){
+                $getCalDaysInMount = $options['max'];
+            }
+
+            if(isset($options['min']) && is_numeric($options['min'])){
+                $i = $options['min'];
+            }
+        }
+
+        $year = $this->getYear();
+        $listOfDaysPerMount = [];
+        for ($i; $i <= $getCalDaysInMount ; $i++) {
+            $listOfDaysPerMount[$i] = "$year/$mount/$i";
         }
 
         return $listOfDaysPerMount;
     }
 
-    public function listOfDaysPerYear($year = null, $flatten = false)
+    public function listOfDaysPerYear($flatten = false)
     {
-        $getYear = $this->getYear($year);
         $listOfDaysPerYear = [];
-        $getCalDaysInMounts = $this->getCalDaysInMounts($year); // Get number days per mounts
+        $getCalDaysInMounts = $this->getCalDaysInMounts(); // Get number days per mounts
         //
         foreach($getCalDaysInMounts as $key => $calDaysInMount){
+            $listOfDaysPerMount = $this->listOfDaysPerMount($key);
+
             // Flatten
-            if($flatten == true){
-                $listOfDaysPerMount = [];
-
-                for ($i=1; $i <= $calDaysInMount ; $i++) {
-                    $listOfDaysPerMount[$i] = "$getYear/$key/$i";
-                }
-
+            if($flatten === true){
                 $listOfDaysPerYear = array_merge($listOfDaysPerYear, $listOfDaysPerMount);
             } else {
-                for ($i=1; $i <= $calDaysInMount ; $i++) {
-                    $listOfDaysPerYear[$key][$i] = "$getYear/$key/$i";
-                }
+                $listOfDaysPerYear[$key] = $listOfDaysPerMount;
             }
         }
 
