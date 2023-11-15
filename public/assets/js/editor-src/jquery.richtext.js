@@ -63,7 +63,8 @@
                 "Lucida Console",
                 "Tahoma",
                 "Times New Roman",
-                "Verdana"
+                "Verdana",
+                "VazirMatn"
             ],
             fontColor: true,
             backgroundColor: true,
