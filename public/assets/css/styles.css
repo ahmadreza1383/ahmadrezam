@@ -11464,3 +11464,9 @@ section.resume-section .resume-section-content {
     padding-bottom: 5rem;
   }
 }
+
+@font-face {
+    font-family: 'VazirMatn';
+    src: url('./../fonts/ttf/Vazirmatn-Medium.ttf') format('ttf'),
+    /* سایر خاصیت‌های مورد نیاز مانند font-weight و font-style */
+  }
