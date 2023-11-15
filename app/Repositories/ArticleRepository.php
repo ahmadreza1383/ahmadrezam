@@ -12,6 +12,13 @@ class ArticleRepository{
         self::$article = $article;
     }
 
+    public static function latests($limit = 10, $offset = 0)
+    {
+        $articles = Article::orderByDesc('id')->offset($offset)->limit($limit)->get();
+
+        return $articles;
+    }
+
     /**
      * Get all column
      */

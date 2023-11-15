@@ -17,12 +17,14 @@ class ArticleController extends Controller
     //TODO dirty code
     public function index(Request $request)
     {
+        $latestArticles = ArticleRepository::latests();
+
         if(! $request->has('name')){
             $articleCategories = ArticleCategoryRepository::all();
 
             $nameArticleCategories = $articleCategories->pluck('name');
 
-            return view("articles.index", compact('nameArticleCategories'));
+            return view("articles.index", compact('nameArticleCategories', 'latestArticles'));
         }
 
         $name = $request->query('name');
