@@ -12,9 +12,13 @@ class ArticleRepository{
         self::$article = $article;
     }
 
-    public static function latests($limit = 10, $offset = 0)
+    public static function latests($limit = 10, $offset = 0, $pusblished = true)
     {
-        $articles = Article::orderByDesc('id')->offset($offset)->limit($limit)->get();
+        if($pusblished){
+            $articles = Article::published()->orderByDesc('id')->offset($offset)->limit($limit)->get();
+        } else {
+            $articles = Article::orderByDesc('id')->offset($offset)->limit($limit)->get();
+        }
 
         return $articles;
     }
