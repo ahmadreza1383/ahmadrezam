@@ -17,6 +17,7 @@ return [
     */
 
     'name' => env('APP_NAME', 'Laravel'),
+    'owner_email' => env('OWNER_EMAIL', 'example@example.com'),
 
     /*
     |--------------------------------------------------------------------------
